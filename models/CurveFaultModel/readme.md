@@ -1,1 +1,1 @@
-This will store the model of the CurveFault dataset.
+This will store the model of the CurveFaultA dataset.
