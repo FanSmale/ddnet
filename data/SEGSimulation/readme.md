@@ -34,4 +34,4 @@ But please note that the seismic data is too large to be uploaded to github, so 
 As for the acquisition of seismic data, users can obtain it by themselves through the forward modeling code acting on the velocity model.
 
 A presentation of some of these datasets:
-[!image]{SEGSimulation.png}
+![image](SEGSimulation.png)
