@@ -28,7 +28,7 @@ ddnet/data/CurveFaultA/
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--...  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--vmodel10.npy
 
-There are 5000 training data and 1000 testing data, in which the seismic data and the velocity model correspond one-to-one. Users can obtain these velocity models by decompressing the .zip file. But please note that the seismic data is too large to be uploaded to github, so we only provide the velocity model. As for the acquisition of seismic data, users can download from the official website provided by OpenFWI.
+There are 5000 training data and 1000 testing data, in which the seismic data and the velocity model correspond one-to-one. Here each .npy file contains 500 data. Users can obtain these velocity models by decompressing the .zip file. But please note that the seismic data is too large to be uploaded to github, so we only provide the velocity model. As for the acquisition of seismic data, users can download from the official website provided by OpenFWI.
 
 CurveFaultA seismic data download:  
 https://drive.google.com/drive/folders/1vqUHJ-iRwp3ozL-e4HhKGpdO0e7NQZE1  
