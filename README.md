@@ -44,7 +44,7 @@ Store intermediate and final results of model runs.
 These results include drawing loss curves and loss arrays saved with .mat.
 The .npy file saves the evaluation results of the corresponding model for each test data.
 
-## Folder: model
+## Folder: models
 The path where the trained model is stored.
 Each model is saved in the corresponding folder in .pkl format.
 
