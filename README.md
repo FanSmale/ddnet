@@ -43,6 +43,7 @@ Evaluation metrics and some common operations are documented.
 Store intermediate and final results of model runs.
 These results include drawing loss curves and loss arrays saved with .mat.
 The .npy file saves the evaluation results of the corresponding model for each test data.
+![image](./results/SEGRealResults/Training Loss Tranfer Learning.png)
 
 ## Folder: models
 The path where the trained model is stored.
