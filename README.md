@@ -7,6 +7,37 @@ Deep learning full waveform inversion (DL-FWI) is gaining much research interest
 
 ## Folder: (root directory)
 
+### lib_config.py
+Declare all the libraries that make the program run.
+It should be noted that because the program has been modified many times, some of these libraries may not be necessary.
+
+### param_config.py
+The global important variables of program operation are recorded, including some unique variables to each dataset.
+
+### path_config
+The path where the program runs.
+Among them, please modify the variable "main_dir" to your storage location.
+
+### model_train (main running program)
+The main program for training the model.
+The models generated during the training process will be stored in the models folder.
+And the loss information generated in this process will be stored in results folder.
+
+### model_test (main running program)
+The main program for testing the model.
+The evaluation metric results generated during the test will be stored in the results folder.
+
+## Folder: func
+Store some commonly used function methods.
+
+### datasets_reader.py
+Several methods for reading seismic data and velocity models in batches and individually are documented.
+
+### net.py
+Some convolution operations and network architecture are documented.
+
+### utils.py
+Evaluation metrics and some common operations are documented.
 
 ## Folder: results
 Store intermediate and final results of model runs.
@@ -16,15 +47,6 @@ The .npy file saves the evaluation results of the corresponding model for each t
 ## Folder: model
 The path where the trained model is stored.
 Each model is saved in the corresponding folder in .pkl format.
-
-## Folder: func
-Store some commonly used function methods.
-### File: datasets_reader.py
-Several methods for reading seismic data and velocity models in batches and individually are documented.
-### File: net.py
-Some convolution operations and network architecture are documented.
-### File: utils.py
-Evaluation metrics and some common operations are documented.
 
 ## Folder: data
 Stores datasets documented in some papers.
