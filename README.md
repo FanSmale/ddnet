@@ -5,9 +5,28 @@ Deep learning full waveform inversion (DL-FWI) is gaining much research interest
 
 ![image](DDNet.png)
 
+## Folder: (root directory)
+
+
 ## Folder: results
 Store intermediate and final results of model runs.
 These results include drawing loss curves and loss arrays saved with .mat.
 The .npy file saves the evaluation results of the corresponding model for each test data.
 
-## Folder: results
+## Folder: model
+The path where the trained model is stored.
+Each model is saved in the corresponding folder in .pkl format.
+
+## Folder: func
+Store some commonly used function methods.
+### File: datasets_reader.py
+Several methods for reading seismic data and velocity models in batches and individually are documented.
+### File: net.py
+Some convolution operations and network architecture are documented.
+### File: utils.py
+Evaluation metrics and some common operations are documented.
+
+## Folder: data
+Stores datasets documented in some papers.
+The SEG dataset is stored one by one using .mat file, the OpenFWI dataset is stored using .npy files, and every 500 data is stored in one .npy file.
+For specific dataset characteristics, see readme.md in each dataset folder.
