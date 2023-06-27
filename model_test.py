@@ -120,8 +120,6 @@ def batch_test(model_path, is_copy_singleshot = False):
             pd_vmodel_of_k = pd_vmodel[k, :, :].reshape(model_dim[0], model_dim[1])
             gt_vmodel_of_k = gt_vmodel[k, :, :].reshape(model_dim[0], model_dim[1])
 
-            pain_seg_velocity_model(pd_vmodel_of_k, min_velocity=np.min(pd_vmodel_of_k), max_velocity=np.max(pd_vmodel_of_k))
-
             mse_record[0, counter]   = run_mse(pd_vmodel_of_k, gt_vmodel_of_k)
             mae_record[0, counter]   = run_mae(pd_vmodel_of_k, gt_vmodel_of_k)
             uqi_record[0, counter]   = run_uqi(gt_vmodel_of_k, pd_vmodel_of_k)
