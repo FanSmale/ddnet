@@ -244,7 +244,7 @@ def train_for_one_stage(cur_epochs, model, dataset_load, optimizer, key_word = "
             optimizer.step()
 
             if iteration % display_step == 0:
-                print('[{}] Firststage_Epochs: {}/{}, Iteration: {}/{} --- Training Loss:{:.6f}'
+                print('[{}] Epochs: {}/{}, Iteration: {}/{} --- Training Loss:{:.6f}'
                       .format(key_word, epoch + 1, cur_epochs, iteration, step * cur_epochs, loss.item()))
 
         ################################
@@ -253,7 +253,7 @@ def train_for_one_stage(cur_epochs, model, dataset_load, optimizer, key_word = "
         if (epoch + 1) % 1 == 0:
 
             # Calculate the average loss of the current epoch
-            print('[{}] Firststage_Epochs: {:d} finished ! Loss: {:.5f}'
+            print('[{}] Epochs: {:d} finished ! Loss: {:.5f}'
                   .format(key_word, epoch + 1, loss_of_epoch / i))
 
             # Include the average loss in the array belonging to the current stage
@@ -261,7 +261,7 @@ def train_for_one_stage(cur_epochs, model, dataset_load, optimizer, key_word = "
 
             # Statistics of the time spent in a epoch
             time_elapsed = time.time() - cur_node_time
-            print('[{}] Firststage_Epochs consuming time: {:.0f}m {:.0f}s'
+            print('[{}] Epochs consuming time: {:.0f}m {:.0f}s'
                   .format(key_word, time_elapsed // 60, time_elapsed % 60))
 
         #########################################################################
