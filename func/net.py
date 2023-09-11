@@ -379,59 +379,6 @@ class DDNet70Model(nn.Module):
 
         return [self.dc1_final(dc1_capture), self.dc2_final(dc2_capture)]
 
-############################################
-#          SD-Net Architecture             #
-############################################
-
-class SDNetModel(nn.Module):
-    def __init__(self, n_classes, in_channels, is_deconv, is_batchnorm):
-        '''
-
-        :param n_classes: Number of channels of output (any single decoder)
-        :param in_channels: Number of channels of network input
-        :param is_deconv: Whether to use deconvolution
-        :param is_batchnorm: Whether to use BN
-        '''
-
-        super(SDNetModel, self).__init__()
-        self.is_deconv = is_deconv
-        self.in_channels = in_channels
-        self.is_batchnorm = is_batchnorm
-        self.n_classes = n_classes
-
-        filters = [64, 128, 256, 512, 1024]
-
-        self.down1 = unetDown(self.in_channels, filters[0], self.is_batchnorm)
-
-
-        self.down2 = unetDown(filters[0], filters[1], self.is_batchnorm)
-        self.down3 = unetDown(filters[1], filters[2], self.is_batchnorm)
-        self.down4 = unetDown(filters[2], filters[3], self.is_batchnorm)
-        self.center = unetConv2(filters[3], filters[4], self.is_batchnorm)
-        self.up4 = unetUp(filters[4], filters[3], self.is_deconv)
-        self.up3 = unetUp(filters[3], filters[2], self.is_deconv)
-        self.up2 = unetUp(filters[2], filters[1], self.is_deconv)
-        self.up1 = unetUp(filters[1], filters[0], self.is_deconv)
-        self.dc1_final = nn.Conv2d(filters[0], self.n_classes, 1)
-        self.dc2_final = nn.Conv2d(filters[0], 2, 1)
-
-    def forward(self, inputs, label_dsp_dim):
-        down1 = self.down1(inputs)
-        down2 = self.down2(down1)
-        down3 = self.down3(down2)
-        down4 = self.down4(down3)
-        center = self.center(down4)
-
-        dc1_up4 = self.up4(down4, center)
-        dc1_up3 = self.up3(down3, dc1_up4)
-        dc1_up2 = self.up2(down2, dc1_up3)
-        dc1_up1 = self.up1(down1, dc1_up2)
-
-        dc1_capture = dc1_up1[:, :, 1:1 + label_dsp_dim[0], 1:1 + label_dsp_dim[1]].contiguous()
-
-        return self.dc1_final(dc1_capture)
-
-
 if __name__ == '__main__':
 
     # Model output size test (for DD-Net70)
