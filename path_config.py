@@ -4,7 +4,7 @@ Path setting
 
 Created on Feb 2023
 
-@author: Xing-Yi Zhang (Zhangzxy20004182@163.com)
+@author: Xing-Yi Zhang (zxy20004182@163.com)
 
 """
 
@@ -15,7 +15,7 @@ import os
 ####                 PATHS                    #####
 ###################################################
 
-main_dir        = 'H:/Study and programming/My Paper Code/DD-Net/'
+main_dir        = '(Your path)/DD-Net/'
 data_dir        = main_dir + 'data/'                                            # The path of dataset
 results_dir     = main_dir + 'results/'                                         # Output path of run results (not model information)
 models_dir      = main_dir + 'models/'                                          # The path where the model will be stored at the end of the run
@@ -24,7 +24,8 @@ models_dir      = main_dir + 'models/'                                          
 ####              DYNAMIC PATHS               #####
 ###################################################
 
-temp_results_dir= results_dir + '{}Results/'.format(dataset_name)               # Generate results storage paths for specific dataset
+temp_results_dir= results_dir + '{}' \
+                                'sults/'.format(dataset_name)               # Generate results storage paths for specific dataset
 temp_models_dir = models_dir  + '{}Model/'.format(dataset_name)                 # Generate model   storage paths for specific dataset
 data_dir        = data_dir    + '{}/'.format(dataset_name)                      # Generate data    storage paths for specific dataset
 
