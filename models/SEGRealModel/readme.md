@@ -1,1 +1,1 @@
-This will store the model of the SEGReal dataset.
+This will store the model of the SEGSalt dataset.
