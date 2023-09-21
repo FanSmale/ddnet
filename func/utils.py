@@ -4,7 +4,7 @@ Build helper method
 
 Created on Feb 2023
 
-@author: Xing-Yi Zhang (Zhangzxy20004182@163.com)
+@author: Xing-Yi Zhang (zxy20004182@163.com)
 
 """
 
