@@ -1,13 +1,13 @@
-# SEG salt real dataset
+# SEG salt dataset
 
-SEG salt real dataset is an open-source real 3D dataset from the SEG Research Committee (F. Aminzadeh, N. Burkhard, L. Nicoletis, F. Rocca, and K. Wyatt, “Seg/eaeg 3-d modeling project: 2nd update,” The Leading Edge, vol. 13, no. 9, pp. 949–952, 1994).
+SEG salt dataset is an open-source 3D dataset from the SEG Research Committee (F. Aminzadeh, N. Burkhard, L. Nicoletis, F. Rocca, and K. Wyatt, “Seg/eaeg 3-d modeling project: 2nd update,” The Leading Edge, vol. 13, no. 9, pp. 949–952, 1994).
 Existing studies have extracted 2D data of 140 cross-sections from the 3D model and conducted related experiments.
 
 The generation of this dataset was first published in the paper: 
 F. Yang and J. Ma, “Deep-learning inversion: a next generation seismic velocity-model building method,” Geophysics, vol. 84, no. 4, pp. R583–R599, 2019. You can find similar resources in their github: https://github.com/YangFangShu/FCNVMB-Deep-learning-based-seismic-velocity-model-building
 
 The current folder is structured as follows:  
-ddnet/data/SEGReal/  
+ddnet/data/SEGSalt/  
 |--test_data  
 &nbsp;&nbsp;&nbsp;&nbsp;|--seismic  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--seismic1.mat  
@@ -37,4 +37,4 @@ But please note that the seismic data is too large to be uploaded to github, so 
 As for the acquisition of seismic data, users can obtain it by themselves through the forward modeling code acting on the velocity model.
 
 A presentation of some of these datasets:
-![image](SEGReal.png)
+![image](SEGSalt.png)
