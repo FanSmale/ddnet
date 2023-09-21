@@ -4,7 +4,7 @@ Test the model effect after training.
 
 Created on Sep 2023
 
-@author: Xing-Yi Zhang (Zhangzxy20004182@163.com)
+@author: Xing-Yi Zhang (zxy20004182@163.com)
 
 """
 
@@ -141,7 +141,6 @@ def single_test(model_path, select_id, train_or_test = "test", model_type = "DDN
         velocity_model = (velocity_model - np.min(velocity_model)) / (np.max(velocity_model) - np.min(velocity_model))
 
     lpips_object = lpips.LPIPS(net='alex', version="0.1")
-
 
     # Convert numpy to tensor and load it to GPU
     seismic_data_tensor = torch.from_numpy(np.array([seismic_data])).float()
