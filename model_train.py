@@ -4,7 +4,7 @@ Curriculum Learning
 
 Created on Sep 2023
 
-@author: Xing-Yi Zhang (Zhangzxy20004182@163.com)
+@author: Xing-Yi Zhang (zxy20004182@163.com)
 
 """
 
@@ -220,7 +220,7 @@ def train_for_one_stage(cur_epochs, model, training_loader, optimizer, key_word 
     :param stage_keyword:   The selected difficulty keyword (set "no settings" to ignore CL)
     :param model_type:      The main model used, this model is differentiated based on different papers.
                             The available key model keywords are [DDNet | DDNet70 | InversionNet | FCNVMB]
-    :return:                Model save path
+    :return:                Model save path and runtime
     '''
 
     loss_of_stage = 0.0
@@ -310,22 +310,18 @@ def train_for_one_stage(cur_epochs, model, training_loader, optimizer, key_word 
 
 def curriculum_learning_training():
     '''
-
     Curriculum learning
-    (Not applicable to SEGSalt)
-
     '''
-
-    # priori_model_src = "D:\Zhang-Xingyi\DDNet release\models\SEGSimulationModel\SEGSimulation_CLStage2_TrSize1600_AllEpo40_CurEpo40.pkl"
+    
     all_training_time = 0
     priori_model_src = None
     training_loader, seismic_gathers, velocity_models = load_dataset()
 
-    # ###########
-    # # Stage 1 #
-    # ###########
+    ###########
+    # Stage 1 #
+    ###########
     if firststage_epochs != 0:
-        dd_net_init, device, optimizer = determine_network(priori_model_src, model_type = "DDNet")                                                # Initialize model settings
+        dd_net_init, device, optimizer = determine_network(priori_model_src, model_type = "DDNet")
         # Because it takes time to set up the structure of the first task one by one during training, we directly
         # construct a loader that contains all the gathers. Thus realizing space for time.
         training_loader_stage1 = preparation_first_stage_task(seismic_gathers, velocity_models)  # Construct stage1 specialized loader
@@ -338,9 +334,9 @@ def curriculum_learning_training():
         # seismic gathers need to be cleaned up when they are used up
         del training_loader_stage1
 
-    # ###########
-    # # Stage 2 #
-    # ###########
+    ###########
+    # Stage 2 #
+    ###########
     if secondstage_epochs != 0:
         dd_net_st1, device, optimizer = determine_network(priori_model_src, model_type = "DDNet")
         priori_model_src, training_time = train_for_one_stage(secondstage_epochs, dd_net_st1, training_loader, optimizer,
@@ -367,17 +363,13 @@ def curriculum_learning_training():
     loss_mat_dir = results_dir + "Training Loss CLStage3.mat"
     loss_stage3 = scipy.io.loadmat(loss_mat_dir)['loss'][0][1:]
 
-
-    save_results(loss=np.hstack([loss_stage1, loss_stage2, loss_stage3]),       # The first element of the array is 0
+    save_results(loss=np.hstack([loss_stage1, loss_stage2, loss_stage3]),
                 epochs=epochs, save_path=results_dir, xtitle='Num. of epochs',
                 ytitle='Num. of epochs', title='Loss (all stage)', is_show=True)
 
 def transfer_learning_training():
     '''
-
     Transfer learning
-    (Only applicable to SEGSalt)
-
     '''
 
     priori_model_src = models_dir + "CL_SEGSimulation_DDNet.pkl"
