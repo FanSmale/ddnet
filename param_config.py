@@ -2,7 +2,7 @@
 """
 Parameters setting
 
-Created on Feb 2023
+Created on Sep 2023
 
 @author: Xing-Yi Zhang (Zhangzxy20004182@163.com)
 
@@ -12,8 +12,8 @@ Created on Feb 2023
 ####             MAIN PARAMETERS                ####
 ####################################################
 
-# Existing datasets: SEGReal|SEGSimulation|FlatVelA|CurveFaultA|FlatFaultA|CurveVelA)
-dataset_name  = 'CurveFaultA'
+# Existing datasets: SEGSalt|SEGSimulation|FlatVelA|CurveFaultA|FlatFaultA|CurveVelA)
+dataset_name  = 'SEGSimulation'
 learning_rate = 0.001                               # Learning rate
 classes = 1                                         # Number of output channels
 display_step = 2                                    # Number of training sessions required to print a "loss"
@@ -37,7 +37,7 @@ if dataset_name  == 'SEGSimulation':
     train_batch_size = 10                           # Number of batches fed in network in one training epoch.
     test_batch_size = 2
 
-elif dataset_name  == 'SEGReal':
+elif dataset_name  == 'SEGSalt':
     data_dim = [400, 301]
     model_dim = [201, 301]
     inchannels = 29
@@ -46,10 +46,10 @@ elif dataset_name  == 'SEGReal':
 
     firststage_epochs = 0
     secondstage_epochs = 0
-    thirdstage_epochs = 10                          # SEGReal for transfer learning and does not require curriculum tasks
+    thirdstage_epochs = 50                          # SEGSalt for transfer learning and does not require curriculum tasks
     epochs = firststage_epochs + secondstage_epochs + thirdstage_epochs
 
-    train_batch_size = 2
+    train_batch_size = 10
     test_batch_size = 2
 
 elif dataset_name == 'FlatVelA':
@@ -66,7 +66,6 @@ elif dataset_name == 'FlatVelA':
 
     train_batch_size = 50
     test_batch_size = 5
-    read_method = 'npy'
 
 elif dataset_name == 'CurveVelA':
     data_dim = [1000, 70]
