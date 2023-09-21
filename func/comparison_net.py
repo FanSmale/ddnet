@@ -2,19 +2,18 @@
 """
 Comparison of the network
 
-Created on June 2023
+Created on  2023
 
-@author: Xing-Yi Zhang (Zhangzxy20004182@163.com)
+@author: Xing-Yi Zhang (zxy20004182@163.com)
 
 """
 
 from lib_config import *
 
-class unetConv2(nn.Module):                                                     # 定义了一个常规的网络单元(图中的两个红线的组合)
-    def __init__(self, in_size, out_size, is_batchnorm):                        # in/out_size分别为输入输出的通道数
+class unetConv2(nn.Module):
+    def __init__(self, in_size, out_size, is_batchnorm):
         '''
         Convolution with two basic operations
-        [Affiliated with FCNVMB]
 
         :param in_size:         Number of channels of input
         :param out_size:        Number of channels of output
@@ -110,11 +109,10 @@ class unetUp(nn.Module):
 NORM_LAYERS = { 'bn': nn.BatchNorm2d, 'in': nn.InstanceNorm2d, 'ln': nn.LayerNorm }
 
 class ConvBlock(nn.Module):
-    # ConvBlock(5, dim1, kernel_size=(7, 1), stride=(2, 1), padding=(3, 0))
     def __init__(self, in_fea, out_fea, kernel_size=3, stride=1, padding=1, norm='bn', relu_slop=0.2, dropout=None):
         super(ConvBlock,self).__init__()
         layers = [nn.Conv2d(in_channels=in_fea, out_channels=out_fea, kernel_size=kernel_size, stride=stride, padding=padding)]
-        if norm in NORM_LAYERS:         # 确定常规卷积与激活函数中间这一层是什么
+        if norm in NORM_LAYERS:
             layers.append(NORM_LAYERS[norm](out_fea))
         layers.append(nn.LeakyReLU(relu_slop, inplace=True))
         if dropout:
