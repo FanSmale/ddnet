@@ -308,7 +308,7 @@ def train_for_one_stage(cur_epochs, model, training_loader, optimizer, key_word 
 
     return last_model_save_path, training_time
 
-def curriculum_learning_training():
+def curriculum_learning_training(model_type):
     '''
     Curriculum learning
     '''
@@ -321,14 +321,14 @@ def curriculum_learning_training():
     # Stage 1 #
     ###########
     if firststage_epochs != 0:
-        dd_net_init, device, optimizer = determine_network(priori_model_src, model_type = "DDNet")
+        dd_net_init, device, optimizer = determine_network(priori_model_src, model_type=model_type)
         # Because it takes time to set up the structure of the first task one by one during training, we directly
         # construct a loader that contains all the gathers. Thus realizing space for time.
         training_loader_stage1 = preparation_first_stage_task(seismic_gathers, velocity_models)  # Construct stage1 specialized loader
         priori_model_src, training_time = train_for_one_stage(firststage_epochs, dd_net_init, training_loader_stage1, optimizer,
                                                key_word = "CLStage1",
                                                stage_keyword = "no settings",
-                                               model_type = "DDNet")
+                                               model_type = model_type)
         all_training_time += training_time
         # Seismic gathers are very space-consuming, stage1's specialized
         # seismic gathers need to be cleaned up when they are used up
@@ -338,21 +338,21 @@ def curriculum_learning_training():
     # Stage 2 #
     ###########
     if secondstage_epochs != 0:
-        dd_net_st1, device, optimizer = determine_network(priori_model_src, model_type = "DDNet")
+        dd_net_st1, device, optimizer = determine_network(priori_model_src, model_type=model_type)
         priori_model_src, training_time = train_for_one_stage(secondstage_epochs, dd_net_st1, training_loader, optimizer,
                                                key_word = "CLStage2",
                                                stage_keyword = "stage2",
-                                               model_type = "DDNet")
+                                               model_type = model_type)
         all_training_time += training_time
 
     ###########
     # Stage 3 #
     ###########
-    dd_net_st2, device, optimizer = determine_network(priori_model_src, model_type = "DDNet")
+    dd_net_st2, device, optimizer = determine_network(priori_model_src, model_type=model_type)
     priori_model_src, training_time = train_for_one_stage(thirdstage_epochs, dd_net_st2, training_loader, optimizer,
                                            key_word="CLStage3",
                                            stage_keyword="stage3",
-                                           model_type = "DDNet")
+                                           model_type = model_type)
     all_training_time += training_time
     print("training runtime: {}s".format(all_training_time))
 
@@ -367,7 +367,7 @@ def curriculum_learning_training():
                 epochs=epochs, save_path=results_dir, xtitle='Num. of epochs',
                 ytitle='Num. of epochs', title='Loss (all stage)', is_show=True)
 
-def transfer_learning_training():
+def transfer_learning_training(model_type):
     '''
     Transfer learning
     '''
@@ -375,14 +375,14 @@ def transfer_learning_training():
     priori_model_src = models_dir + "CL_SEGSimulation_DDNet.pkl"
     loader, seismic_gathers, velocity_models = load_dataset()
 
-    dd_net, device, optimizer = determine_network(priori_model_src, model_type="DDNet")
+    dd_net, device, optimizer = determine_network(priori_model_src, model_type=model_type)
     _, training_time = train_for_one_stage(thirdstage_epochs, dd_net, loader, optimizer,
                         key_word="Tranfer Learning",
                         stage_keyword="no settings",
-                        model_type="DDNet")
+                        model_type=model_type)
     print("training runtime: {}s".format(training_time))
 
 
 if __name__ == "__main__":
-    curriculum_learning_training()
+    curriculum_learning_training(model_type="DDNet")
     # transfer_learning_training()
