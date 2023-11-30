@@ -13,26 +13,34 @@ ddnet/data/FlatFaultA/
 &nbsp;&nbsp;&nbsp;&nbsp;|--seismic  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--seismic1.npy  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--seismic2.npy  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--...  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--seismic12.npy  
 &nbsp;&nbsp;&nbsp;&nbsp;|--vmodel  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--vmodel1.mat  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--vmodel2.mat  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--...  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--vmodel12.mat  
 |--train_data  
 &nbsp;&nbsp;&nbsp;&nbsp;|--seismic  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--seismic1.npy  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--seismic2.npy  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--...  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--seismic10.npy  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--seismic96.npy  
 &nbsp;&nbsp;&nbsp;&nbsp;|--vmodel  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--vmodel1.npy  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--vmodel2.npy  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--...  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--vmodel10.npy
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--vmodel96.npy
 
-There are 5000 training data and 1000 testing data, in which the seismic data and the velocity model correspond one-to-one. Here each .npy file contains 500 data. Users can obtain these velocity models by decompressing the .zip file. But please note that the seismic data is too large to be uploaded to github, so we only provide the velocity model. As for the acquisition of seismic data, users can download from the official website provided by OpenFWI.
+There are 48,000 training data and 6,000 testing data, in which the seismic data and the velocity model correspond one-to-one. Here each .npy file contains 500 data.\
+Please note that the data is too large to be uploaded to github, so users need download from the official website provided by OpenFWI.
 
 FlatFaultA seismic data download:  
 https://drive.google.com/drive/folders/1jOB6R_zewuFj5wZam7nDP7GixQnbnRLR  
-Please note that the original OpenFWI seismic data names: seis4_1_24 to 35 are changed to seismic1 to 12, where 1 to 10 is used for training and 11 to 12 is used for testing.
+The numbers "2_1_0" to "4_1_23" in the source file are renumbered as "1" to "96".
+They are used for training.
+The numbers "4_1_24" to "4_1_35" in the source file are renumbered as "1" to "12".
+They are used for testing.
 
 A presentation of some of these datasets:
 ![image](FlatFaultA.png)
