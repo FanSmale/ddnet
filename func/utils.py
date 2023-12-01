@@ -8,7 +8,24 @@ Created on Feb 2023
 
 """
 
-from func.net import *
+
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from scipy.ndimage import uniform_filter
+from torch.autograd import Variable
+
+import cv2
+import numpy as np
+import torch
+import torch.nn as nn
+import math
+import scipy.io
+import scipy
+
+import matplotlib as mpl
+mpl.use('TkAgg')
+
+import matplotlib.pylab as plt
+
 
 font18 = {
     'family': 'Times New Roman',
@@ -405,7 +422,6 @@ def _uqi_single(GT,P,ws):
     :return:
     '''
     N = ws**2
-    window = np.ones((ws,ws))
 
     GT_sq = GT*GT
     P_sq = P*P
