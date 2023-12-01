@@ -24,8 +24,7 @@ models_dir      = main_dir + 'models/'                                          
 ####              DYNAMIC PATHS               #####
 ###################################################
 
-temp_results_dir= results_dir + '{}' \
-                                'sults/'.format(dataset_name)               # Generate results storage paths for specific dataset
+temp_results_dir= results_dir + '{}Results/'.format(dataset_name)                   # Generate results storage paths for specific dataset
 temp_models_dir = models_dir  + '{}Model/'.format(dataset_name)                 # Generate model   storage paths for specific dataset
 data_dir        = data_dir    + '{}/'.format(dataset_name)                      # Generate data    storage paths for specific dataset
 
@@ -37,4 +36,3 @@ else:
     os.makedirs(temp_models_dir)
     results_dir = temp_results_dir
     models_dir  = temp_models_dir
-
