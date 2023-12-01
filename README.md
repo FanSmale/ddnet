@@ -7,10 +7,6 @@ Deep learning full waveform inversion (DL-FWI) is gaining much research interest
 
 ## Folder: (root directory)
 
-### lib_config.py
-Declare all the libraries that make the program run.
-It should be noted that because the program has been modified many times, some of these libraries may not be necessary.
-
 ### param_config.py
 The global important variables of program operation are recorded, including some unique variables to each dataset.
 
@@ -19,7 +15,17 @@ The path where the program runs.
 Among them, please modify the variable "main_dir" to your storage location.
 
 ### model_train (main running program)
-The main program for training the model.
+The main program for training the our approaches.
+The models generated during the training process will be stored in the models folder.
+And the loss information generated in this process will be stored in results folder.
+
+### inversionnet_train
+The main program for training the InversionNet.
+The models generated during the training process will be stored in the models folder.
+And the loss information generated in this process will be stored in results folder.
+
+### fcnvmb_train
+The main program for training the FCNVMB.
 The models generated during the training process will be stored in the models folder.
 And the loss information generated in this process will be stored in results folder.
 
@@ -33,17 +39,26 @@ Store some commonly used function methods.
 ### datasets_reader.py
 Several methods for reading seismic data and velocity models in batches and individually are documented.
 
-### net.py
-Some convolution operations and network architecture are documented.
-
 ### utils.py
 Evaluation metrics and some common operations are documented.
 
+## Folder: net
+Some convolution operations and network architecture are documented.
+
+### DDNet.py
+Network architecture of DDNet and SDNet.
+
+### DDNet70.py
+Network architecture of DDNet70 and SDNet70.
+
+### InversionNet.py
+Network architecture of InversionNet.
+
+### FCNVMB.py
+Network architecture of FCNVMB.
+
 ## Folder: results
 Store intermediate and final results of model runs.
-These results include drawing loss curves and loss arrays saved with .mat.
-The .npy file saves the evaluation results of the corresponding model for each test data.
-![image](loss_curve.png)
 
 ## Folder: models
 The path where the trained model is stored.
