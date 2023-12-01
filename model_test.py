@@ -4,12 +4,24 @@ Test the model effect after training.
 
 Created on Sep 2023
 
-@author: Xing-Yi Zhang (zxy20004182@163.com)
+@author: Xing-Yi Zhang (Zhangzxy20004182@163.com)
 
 """
-
-from func.datasets_reader import *
+from path_config import *
+from func.utils import run_mse, run_mae, run_lpips, run_uqi, pain_seg_seismic_data, pain_seg_velocity_model,\
+    pain_openfwi_velocity_model, pain_openfwi_seismic_data
+from func.datasets_reader import batch_read_matfile, batch_read_npyfile, single_read_matfile, single_read_npyfile
 from model_train import determine_network
+
+import time
+import lpips
+import numpy as np
+import torch
+import torch.utils.data as data_utils
+
+import matplotlib
+matplotlib.use('TkAgg')
+
 
 def load_dataset():
     '''
@@ -75,6 +87,8 @@ def batch_test(model_path, model_type = "DDNet"):
         model_net.eval()
         if model_type in ["DDNet", "DDNet70"]:
             [outputs, _] = model_net(seis_image, model_dim)
+        elif model_type in ["SDNet", "SDNet70"]:
+            outputs = model_net(seis_image, model_dim)
         elif model_type == "InversionNet":
             outputs = model_net(seis_image)
         elif model_type == "FCNVMB":
@@ -128,9 +142,7 @@ def single_test(model_path, select_id, train_or_test = "test", model_type = "DDN
     '''
 
     print("Loading test model:{}".format(model_path))
-    model_net, device, optimizer = determine_network(model_path, model_type = model_type)
-
-
+    model_net, device, optimizer = determine_network(model_path, model_type=model_type)
 
     if dataset_name in ['SEGSalt', 'SEGSimulation']:
         seismic_data, velocity_model, _ = single_read_matfile(data_dir, data_dim, model_dim, select_id, train_or_test = train_or_test)
@@ -142,6 +154,7 @@ def single_test(model_path, select_id, train_or_test = "test", model_type = "DDN
 
     lpips_object = lpips.LPIPS(net='alex', version="0.1")
 
+
     # Convert numpy to tensor and load it to GPU
     seismic_data_tensor = torch.from_numpy(np.array([seismic_data])).float()
     if torch.cuda.is_available():
@@ -152,6 +165,8 @@ def single_test(model_path, select_id, train_or_test = "test", model_type = "DDN
     cur_node_time = time.time()
     if model_type in ["DDNet", "DDNet70"]:
         [predicted_vmod_tensor, _] = model_net(seismic_data_tensor, model_dim)
+    elif model_type in ["SDNet", "SDNet70"]:
+        predicted_vmod_tensor = model_net(seismic_data_tensor, model_dim)
     elif model_type == "InversionNet":
         predicted_vmod_tensor = model_net(seismic_data_tensor)
     elif model_type == "FCNVMB":
@@ -188,38 +203,19 @@ def single_test(model_path, select_id, train_or_test = "test", model_type = "DDN
 
 if __name__ == "__main__":
     batch_of_single = 1
-    # |DDNet|DDNet70|InversionNet|FCNVMB|
+    # |DDNet|DDNet70|InversionNet|FCNVMB|SDNet|SDNet70|
     model_type = "DDNet"
 
     if batch_of_single == 1:
-        ##############
         # Batch test #
-        ##############
-        if dataset_name == "SEGSalt":
-            batch_test(models_dir + "TL_Simulation2Salt_{}.pkl".format(model_type), model_type=model_type)
-        elif model_type in ["DDNet", "DDNet70"]:
-            batch_test(models_dir + "CL_{}_{}.pkl".format(dataset_name, model_type), model_type=model_type)
-        elif model_type in ["FCNVMB", "InversionNet"]:
-            batch_test(models_dir + "{}_{}.pkl".format(dataset_name, model_type), model_type=model_type)
-        else:
-            exit(0)
+        batch_test("...", model_type=model_type)
     else:
-        ###############
         # Single test #
-        ###############
         if dataset_name in ["SEGSalt", "SEGSimulation"]:
             # 1~10      :SEGSalt
             # 1601~1700 :SEGSimulation
-            select_id = 6
+            select_id = 1615
         else:
             # [1~2, 0~499]
-            select_id = [1, 300]
-
-        if dataset_name == "SEGSalt":
-            single_test(models_dir + "TL_Simulation2Salt_{}.pkl".format(model_type), select_id, model_type=model_type)
-        elif model_type in ["DDNet", "DDNet70"]:
-            single_test(models_dir + "CL_{}_{}.pkl".format(dataset_name, model_type), select_id, model_type=model_type)
-        elif model_type in ["FCNVMB", "InversionNet"]:
-            single_test(models_dir + "{}_{}.pkl".format(dataset_name, model_type), select_id, model_type=model_type)
-        else:
-            exit(0)
+            select_id = [11, 104]
+        single_test("...", select_id=select_id, model_type=model_type)
