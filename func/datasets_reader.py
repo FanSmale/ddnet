@@ -8,15 +8,17 @@ Created on Sep 2023
 
 """
 
-from path_config import *
 from param_config import *
-from func.utils import *
+import scipy.io
+import scipy
+import numpy as np
+from func.utils import extract_contours
 
 def batch_read_matfile(dataset_dir,
                        start,
                        batch_length,
-                       train_or_test = "train",
-                       data_channels = 29):         # In this code, only SEG data is used in .mat, and they are all 29 channels
+                       train_or_test="train",
+                       data_channels=29):
     '''
     Batch read seismic gathers and velocity models for .mat file
 
@@ -57,7 +59,7 @@ def batch_read_matfile(dataset_dir,
 def batch_read_npyfile(dataset_dir,
                        start,
                        batch_length,
-                       train_or_test = "train"):
+                       train_or_test="train"):
     '''
     Batch read seismic gathers and velocity models for .npy file
 
@@ -70,8 +72,8 @@ def batch_read_npyfile(dataset_dir,
                                     model are all (number of read data * 500, channel, height, width)
     '''
 
-    dataset = None
-    labelset = None
+    dataset = []
+    labelset = []
 
     for i in range(start, start + batch_length):
 
@@ -82,11 +84,9 @@ def batch_read_npyfile(dataset_dir,
         # Determine the seismic data path in the dataset
         filename_seis = dataset_dir + '{}_data/seismic/seismic{}.npy'.format(train_or_test, i)
         print("Reading: {}".format(filename_seis))
+        temp_data = np.load(filename_seis)
 
-        if i == start:
-            dataset = np.load(filename_seis)
-        else:
-            dataset = np.append(dataset, np.load(filename_seis), axis=0)
+        dataset.append(temp_data)
 
         ##############################
         ##    Load Velocity Model   ##
@@ -95,11 +95,12 @@ def batch_read_npyfile(dataset_dir,
         # Determine the velocity model path in the dataset
         filename_label = dataset_dir + '{}_data/vmodel/vmodel{}.npy'.format(train_or_test, i)
         print("Reading: {}".format(filename_label))
+        temp_data = np.load(filename_label)
 
-        if i == start:
-            labelset = np.load(filename_label)
-        else:
-            labelset = np.append(labelset, np.load(filename_label), axis=0)
+        labelset.append(temp_data)
+
+    dataset = np.vstack(dataset)
+    labelset = np.vstack(labelset)
 
     print("Generating velocity model profile......")
     conlabels = np.zeros([batch_length * 500, classes, model_dim[0], model_dim[1]])
