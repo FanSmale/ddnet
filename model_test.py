@@ -59,6 +59,8 @@ def batch_test(model_path, model_type = "DDNet"):
 
     :param model_path:              Model path
     :param model_type:              The main model used, this model is differentiated based on different papers.
+                                    The available key model keywords are
+                                    [DDNet70 | DDNet | InversionNet | FCNVMB| SDNet70 | SDNet]
     :return:
     '''
 
@@ -137,7 +139,8 @@ def single_test(model_path, select_id, train_or_test = "test", model_type = "DDN
                                     e.g. [11, 100], otherwise it is just a single number, e.g. 56.
     :param train_or_test:           Whether the data set belongs to the training set or the testing set
     :param model_type:              The main model used, this model is differentiated based on different papers.
-                                    The available key model keywords are [DDNet70 | DDNet | InversionNet | FCNVMB]
+                                    The available key model keywords are
+                                    [DDNet70 | DDNet | InversionNet | FCNVMB| SDNet70 | SDNet]
     :return:
     '''
 
@@ -219,3 +222,4 @@ if __name__ == "__main__":
             # [1~2, 0~499]
             select_id = [11, 104]
         single_test("...", select_id=select_id, model_type=model_type)
+
