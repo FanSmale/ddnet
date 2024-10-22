@@ -134,12 +134,19 @@ class DDNetModel(nn.Module):
         self.down2 = unetDown(filters[0], filters[1], self.is_batchnorm)
         self.down3 = unetDown(filters[1], filters[2], self.is_batchnorm)
         self.down4 = unetDown(filters[2], filters[3], self.is_batchnorm)
+        
         self.center = unetConv2(filters[3], filters[4], self.is_batchnorm)
-        self.up4 = unetUp(filters[4], filters[3], self.is_deconv)
-        self.up3 = unetUp(filters[3], filters[2], self.is_deconv)
-        self.up2 = unetUp(filters[2], filters[1], self.is_deconv)
-        self.up1 = unetUp(filters[1], filters[0], self.is_deconv)
+        
+        self.dc1_up4 = unetUp(filters[4], filters[3], self.is_deconv)
+        self.dc1_up3 = unetUp(filters[3], filters[2], self.is_deconv)
+        self.dc1_up2 = unetUp(filters[2], filters[1], self.is_deconv)
+        self.dc1_up1 = unetUp(filters[1], filters[0], self.is_deconv)
         self.dc1_final = nn.Conv2d(filters[0], self.n_classes, 1)
+
+        self.dc2_up4 = unetUp(filters[4], filters[3], self.is_deconv)
+        self.dc2_up3 = unetUp(filters[3], filters[2], self.is_deconv)
+        self.dc2_up2 = unetUp(filters[2], filters[1], self.is_deconv)
+        self.dc2_up1 = unetUp(filters[1], filters[0], self.is_deconv)
         self.dc2_final = nn.Conv2d(filters[0], 2, 1)
 
     def forward(self, inputs, label_dsp_dim):
@@ -162,20 +169,20 @@ class DDNetModel(nn.Module):
         #################
         ###  Decoder1 ###
         #################
-        dc1_up4 = self.up4(down4, decoder1_image)
-        dc1_up3 = self.up3(down3, dc1_up4)
-        dc1_up2 = self.up2(down2, dc1_up3)
-        dc1_up1 = self.up1(down1, dc1_up2)
+        dc1_up4 = self.dc1_up4(down4, decoder1_image)
+        dc1_up3 = self.dc1_up3(down3, dc1_up4)
+        dc1_up2 = self.dc1_up2(down2, dc1_up3)
+        dc1_up1 = self.dc1_up1(down1, dc1_up2)
 
         dc1_capture = dc1_up1[:, :, 1:1 + label_dsp_dim[0], 1:1 + label_dsp_dim[1]].contiguous()
 
         #################
         ###  Decoder2 ###
         #################
-        dc2_up4 = self.up4(down4, decoder2_image)
-        dc2_up3 = self.up3(down3, dc2_up4)
-        dc2_up2 = self.up2(down2, dc2_up3)
-        dc2_up1 = self.up1(down1, dc2_up2)
+        dc2_up4 = self.dc2_up4(down4, decoder2_image)
+        dc2_up3 = self.dc2_up3(down3, dc2_up4)
+        dc2_up2 = self.dc2_up2(down2, dc2_up3)
+        dc2_up1 = self.dc2_up1(down1, dc2_up2)
 
         dc2_capture = dc2_up1[:, :, 1:1 + label_dsp_dim[0], 1:1 + label_dsp_dim[1]].contiguous()
 
