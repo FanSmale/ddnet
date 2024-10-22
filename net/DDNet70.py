@@ -266,10 +266,15 @@ class DDNet70Model(nn.Module):
 
         self.center = unetDown(256, 512, self.is_batchnorm)
 
-        self.up5 = unetUp(512, 256, output_lim=[9, 9], is_deconv=self.is_deconv)
-        self.up4 = unetUp(256, 128, output_lim=[18, 18], is_deconv=self.is_deconv)
-        self.up3 = netUp(128, 64, output_lim=[35, 35], is_deconv=self.is_deconv)
-        self.up2 = netUp(64, 32, output_lim=[70, 70], is_deconv=self.is_deconv)
+        self.dc1_up5 = unetUp1(512, 256, output_lim=[9, 9], is_deconv=self.is_deconv)
+        self.dc1_up4 = unetUp1(256, 128, output_lim=[18, 18], is_deconv=self.is_deconv)
+        self.dc1_up3 = netUp1(128, 64, output_lim=[35, 35], is_deconv=self.is_deconv)
+        self.dc1_up2 = netUp1(64, 32, output_lim=[70, 70], is_deconv=self.is_deconv)
+
+        self.dc2_up5 = unetUp2(512, 256, output_lim=[9, 9], is_deconv=self.is_deconv)
+        self.dc2_up4 = unetUp2(256, 128, output_lim=[18, 18], is_deconv=self.is_deconv)
+        self.dc2_up3 = netUp2(128, 64, output_lim=[35, 35], is_deconv=self.is_deconv)
+        self.dc2_up2 = netUp2(64, 32, output_lim=[70, 70], is_deconv=self.is_deconv)
 
         self.dc1_final = ConvBlock_Tanh(32, self.n_classes)
         self.dc2_final = ConvBlock_Tanh(32, 2)
@@ -296,20 +301,18 @@ class DDNet70Model(nn.Module):
         #################
         ###  Decoder1 ###
         #################
-        dc1_up5 = self.up5(down5, decoder1_image)
-        dc1_up4 = self.up4(down4, dc1_up5)
-        dc1_up3 = self.up3(dc1_up4)
-        dc1_up2 = self.up2(dc1_up3)
-
+        dc1_up5 = self.dc1_up5(down5, decoder1_image)
+        dc1_up4 = self.dc1_up4(down4, dc1_up5)
+        dc1_up3 = self.dc1_up3(dc1_up4)
+        dc1_up2 = self.dc1_up2(dc1_up3)
 
         #################
         ###  Decoder2 ###
         #################
-        dc2_up5 = self.up5(down5, decoder2_image)
-        dc2_up4 = self.up4(down4, dc2_up5)
-        dc2_up3 = self.up3(dc2_up4)
-        dc2_up2 = self.up2(dc2_up3)
-
+        dc2_up5 = self.dc2_up5(down5, decoder2_image)
+        dc2_up4 = self.dc2_up4(down4, dc2_up5)
+        dc2_up3 = self.dc2_up3(dc2_up4)
+        dc2_up2 = self.dc2_up2(dc2_up3)
 
         return [self.dc1_final(dc1_up2), self.dc2_final(dc2_up2)]
 
